@@ -1,1 +1,1 @@
-# Project1
+# Cleaning hotel data
