@@ -52,3 +52,5 @@ df['Children'] = df['Children'].astype('int64')
 t, p = stats.ttest_ind(df['IsCanceled'][df['Children'] == 0],
                       df['IsCanceled'][df['Children'] > 0])
 print('Null Hypothesis: The amount of children a person has does not make them more or less likely to cancel their hotel\np_value = {}\np_value is greater than 0.05'.format(round(p, 3)))
+x = 5
+
