@@ -1,5 +1,5 @@
-import django
-import numpy as np
+from scipy import stats
+from datetime import timedelta
 import pandas as pd
 
 #Create and Concat the H1 and H2 dataframes
@@ -9,7 +9,7 @@ df = pd.concat([df1,df2])
 # print(df)
 #Verify the Columns are in the correct type
 
-print(df.info())
+# print(df.info())
 
 #Combine the dates into one column
     #convert the string Months to integers
@@ -36,3 +36,18 @@ df.drop(['ArrivalDateYear', 'ArrivalDateMonth', 'ArrivalDateDayOfMonth'], axis=1
 temp_column = df.pop('ArrivalDate')
 df.insert(2, 'ArrivalDate', temp_column)
 
+#Determine Reservation Date
+    #subtract leadtime from the arrivaldate
+df['ReservationDate'] = [x - timedelta(y) for x,y in zip(df['ArrivalDate'], df['LeadTime'])]
+    #Place the new column closer to the front
+temp_column = df.pop('ReservationDate')
+df.insert(2, 'ReservationDate', temp_column)
+
+#Hypothesis test whether having at least 1 child increases the chances of cancelling
+    #Fill the nan cells with 0 and convert column to int64
+df['Children'] = df['Children'].fillna(0)
+df['Children'] = df['Children'].astype('int64')
+    #ttest
+t, p = stats.ttest_ind(df['IsCanceled'][df['Children'] == 0],
+                      df['IsCanceled'][df['Children'] > 0])
+print('Null Hypothesis: The amount of children a person has does not make them more or less likely to cancel their hotel\np_value = {}\np_value is greater than 0.05'.format(round(p, 3)))
