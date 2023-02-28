@@ -1,6 +1,6 @@
 # Cleaning hotel data
 
-- [ ] Concat the Dataframes
+- [X] Concat the Dataframes
 - [ ] Combine dates into on column
 - [ ] Determine Reservation date
 - [ ] Hypothesis test whether having at least 1 child increases the chances of cancelling
